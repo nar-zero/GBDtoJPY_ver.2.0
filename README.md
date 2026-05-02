@@ -1,0 +1,1 @@
+# GBDtoJPY_ver.2.0
