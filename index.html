@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Mini</title>
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --sub:#9ca3af;
+  --accent:#22c55e;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.card{
+  background:var(--card);
+  padding:24px;
+  border-radius:16px;
+  width:90%;
+  max-width:360px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+h2{margin:0 0 16px;}
+input{
+  width:100%;
+  padding:12px;
+  font-size:20px;
+  border:none;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+.rate{
+  font-size:14px;
+  color:var(--sub);
+  margin-bottom:10px;
+}
+.result{
+  font-size:28px;
+  margin:16px 0;
+  color:var(--accent);
+}
+.buttons{
+  display:flex;
+  gap:8px;
+}
+button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  font-size:14px;
+}
+.swap{background:#374151;color:white;}
+.clear{background:#1f2937;color:white;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="title">GBP → JPY</h2>
+
+  <input type="number" id="amount" placeholder="入力" autofocus>
+
+  <div class="rate">
+    レート: <input type="number" id="rate" value="200" style="width:80px;">
+  </div>
+
+  <div class="result" id="result">¥0</div>
+
+  <div class="buttons">
+    <button class="swap" onclick="swap()">⇄ 切替</button>
+    <button class="clear" onclick="clearAll()">クリア</button>
+  </div>
+</div>
+
+<script>
+let mode = "GBPtoJPY";
+
+const amount = document.getElementById('amount');
+const rate = document.getElementById('rate');
+const result = document.getElementById('result');
+const title = document.getElementById('title');
+
+function convert(){
+  const val = parseFloat(amount.value) || 0;
+  const r = parseFloat(rate.value) || 0;
+
+  let res;
+  if(mode==="GBPtoJPY"){
+    res = val * r;
+    result.textContent = "¥" + res.toLocaleString();
+  }else{
+    res = val / r;
+    result.textContent = res.toFixed(2) + " GBP";
+  }
+}
+
+amount.addEventListener('input', convert);
+rate.addEventListener('input', convert);
+
+function swap(){
+  mode = mode==="GBPtoJPY" ? "JPYtoGBP" : "GBPtoJPY";
+  title.textContent = mode==="GBPtoJPY" ? "GBP → JPY" : "JPY → GBP";
+  convert();
+}
+
+function clearAll(){
+  amount.value = "";
+  result.textContent = "¥0";
+  amount.focus();
+}
+
+convert();
+</script>
+
+</body>
+</html>
